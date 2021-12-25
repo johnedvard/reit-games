@@ -1,0 +1,9 @@
+<div id="top-menu">
+  <img id="logo" src="assets/logo-decal.svg" alt="Reit Games logo" />
+  <app-log-in-out></app-log-in-out>
+</div>
+<menu id="circle-menu">
+  <li *ngFor="let menuItem of menuItems">
+    <button type="button">{{ menuItem.name }}</button>
+  </li>
+</menu>
