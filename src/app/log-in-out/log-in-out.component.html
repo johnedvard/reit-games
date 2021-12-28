@@ -2,5 +2,11 @@
   id="login-avatar"
   [src]="gamerImgSrc"
   alt="Image of logged in gamer"
-  (click)="loginout()"
+  (click)="profileImgClick($event)"
 />
+
+<app-account-menu
+  *ngIf="isDropDownOpen"
+  class="dropdown"
+  [(isDropDownOpen)]="isDropDownOpen"
+></app-account-menu>

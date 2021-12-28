@@ -1,0 +1,32 @@
+
+
+:host
+  display: flex
+  flex-flow: column
+  align-items: flex-start
+  position: relative
+  background-color: #f9f9f9
+  min-width: 160px
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+  padding: 12px 16px
+  z-index: 1
+
+div
+  display: flex
+  margin-top: 3px
+  flex-flow: row
+  flex-grow: 1
+  align-items: baseline
+  width: 100%
+  :last-child
+    margin-left: auto
+
+#accountId
+  font-weight: bold
+  position: relative
+  &::after
+    position: absolute
+    bottom: -5px
+    left: 0
+    content: '__'
+    

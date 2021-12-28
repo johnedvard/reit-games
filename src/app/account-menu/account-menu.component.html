@@ -1,0 +1,7 @@
+<span id="accountId">{{ account?.accountId }}</span>
+
+<div>
+  <span>NEAR: </span>
+  <span>{{ nearTokens }} {{ nearTokens && "Ⓝ" }}</span>
+</div>
+<button type="button" (click)="signOut()">Logout</button>

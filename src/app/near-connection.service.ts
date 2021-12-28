@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Account, connect, WalletConnection } from 'near-api-js';
+import {
+  connect,
+  Near,
+  WalletConnection,
+  ConnectConfig,
+  keyStores,
+  Account,
+} from 'near-api-js';
+import { AccountBalance } from 'near-api-js/lib/account';
 
-import { ConnectConfig, keyStores } from 'near-api-js';
+import { ReplaySubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,24 +19,84 @@ export class NearConnectionService {
   CONTRACT_NAME = 'dev-1618829854588-2430734';
   APP_KEY_PREFIX = 'shiritori:';
 
-  constructor() {}
+  private readAccount!: Account;
+  private account: ReplaySubject<Account> = new ReplaySubject<Account>();
+  private near!: Near;
+  private walletConnection!: WalletConnection;
+  private balance!: AccountBalance;
 
-  async login() {
+  constructor() {
+    this.initNear().then(({ near, walletConnection }) => {
+      if (walletConnection) {
+        this.readAccount = new Account(near.connection, this.CONTRACT_NAME);
+        let account = this.readAccount;
+        if (walletConnection.isSignedIn()) {
+          // loggied in user, has write priveledge
+          account = walletConnection.account();
+          account.getAccountBalance().then((balance: AccountBalance) => {
+            this.balance = balance;
+          });
+        } else {
+          // account with read priveledges only
+          account = this.readAccount;
+        }
+        this.account.next(account);
+      }
+    });
+  }
+
+  getBalance(): AccountBalance {
+    return this.balance || { total: 0 };
+  }
+
+  getAccount(): Observable<Account> {
+    return this.account.asObservable();
+  }
+
+  login() {
     // TODO (johnedvard) get env variable instead of hardcode development
-    const near = await connect(this.getNearConfig('development'));
-    const walletConnection = new WalletConnection(near, this.APP_KEY_PREFIX);
-    let account;
-    if (walletConnection.isSignedIn()) {
-      // Logged in account, can write as user signed up through wallet
-      account = walletConnection.account();
-    } else {
+    if (!this.walletConnection || !this.near) return;
+    if (!this.walletConnection.isSignedIn()) {
       // Contract account, normally only gonna work in read only mode
-      account = new Account(near.connection, this.CONTRACT_NAME);
+      this.walletConnection.requestSignIn();
     }
+  }
+
+  signOut() {
+    if (!this.walletConnection) return;
+    this.walletConnection.signOut();
+    // User should still be able to read content
+    this.account.next(this.readAccount);
+  }
+
+  isSignedIn(): boolean {
+    if (this.walletConnection) {
+      return this.walletConnection.isSignedIn();
+    }
+    return false;
+  }
+
+  private async initNear(): Promise<{
+    near: Near;
+    walletConnection: WalletConnection | null;
+  }> {
+    const nearConfig = this.getNearConfig('development');
+    if (!this.near) {
+      this.near = await connect(nearConfig);
+      this.walletConnection = new WalletConnection(
+        this.near,
+        this.APP_KEY_PREFIX
+      );
+    }
+    return { near: this.near, walletConnection: this.walletConnection };
   }
 
   private getNearConfig(env: string): ConnectConfig {
     const headers = {};
+    const keyStore = new keyStores.BrowserLocalStorageKeyStore(
+      window.localStorage,
+      this.APP_KEY_PREFIX
+    );
     switch (env) {
       case 'production':
       case 'mainnet':
@@ -38,6 +106,7 @@ export class NearConnectionService {
           walletUrl: 'https://wallet.near.org',
           helperUrl: 'https://helper.mainnet.near.org',
           headers,
+          keyStore,
         };
       case 'development':
       case 'testnet':
@@ -47,6 +116,7 @@ export class NearConnectionService {
           walletUrl: 'https://wallet.testnet.near.org',
           helperUrl: 'https://helper.testnet.near.org',
           headers,
+          keyStore,
         };
       case 'betanet':
         return {
@@ -55,6 +125,7 @@ export class NearConnectionService {
           walletUrl: 'https://wallet.betanet.near.org',
           helperUrl: 'https://helper.betanet.near.org',
           headers,
+          keyStore,
         };
       case 'local':
         return {
@@ -63,6 +134,7 @@ export class NearConnectionService {
           keyPath: `${environment.home}/.near/validator_key.json`,
           walletUrl: 'http://localhost:4000/wallet',
           headers,
+          keyStore,
         };
       case 'test':
       case 'ci':
@@ -78,6 +150,7 @@ export class NearConnectionService {
           nodeUrl: 'https://rpc.ci-betanet.near.org',
           masterAccount: 'test.near',
           headers,
+          keyStore,
         };
       default:
         throw Error(
