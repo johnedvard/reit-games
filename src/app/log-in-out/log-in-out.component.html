@@ -1,9 +1,11 @@
+<button *ngIf="!isSignedIn" class="btn-flat">Login</button>
 <img
+  *ngIf="isSignedIn"
   id="login-avatar"
   [src]="gamerImgSrc"
   alt="Image of logged in gamer"
-  (click)="profileImgClick($event)"
 />
+<span *ngIf="isSignedIn" class="chevron"></span>
 
 <app-account-menu
   *ngIf="isDropDownOpen"

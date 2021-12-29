@@ -13,20 +13,11 @@ export class MainMenuComponent implements OnInit {
     { name: 'ABOUT' },
     { name: 'WEB3' },
   ];
-  defaultImgSrc = 'assets/default-gamer.svg';
-  gamerImgSrc = '';
-  constructor(private nearService: NearConnectionService) {
-    if (!this.isLoggedIn()) {
-      this.gamerImgSrc = this.defaultImgSrc;
-    }
-  }
+
+  constructor(private nearService: NearConnectionService) {}
 
   loginout() {
     this.nearService.login();
-  }
-
-  private isLoggedIn() {
-    return false;
   }
 
   ngOnInit(): void {}

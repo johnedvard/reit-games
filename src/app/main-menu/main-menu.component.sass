@@ -1,4 +1,6 @@
-@use '../../variables'
+@use '../../variables' as v
+@use '../../fonts'
+
 :host
   width: 100vw
   height: 100%
@@ -11,7 +13,7 @@
   align-self: flex-start
   display: flex
   align-content: center
-  height: 30px
+  height: v.$top-menu-height
   padding: 8px
   
 
@@ -19,11 +21,7 @@
   align-self: flex-start
   height: 100%
   width: auto
-  
-app-log-in-out
-  height: 30px
-  margin-left: auto
-  align-self: flex-end
+
 
 
 #circle-menu
@@ -32,16 +30,17 @@ app-log-in-out
   grid-template-columns: 1fr 1fr 1fr
   grid-template-rows: 1fr 1fr 1fr
   margin: 0 auto
-  max-width: 320px
-  width: 100%
-  aspect-ratio: 1/1
+  width: 320px
+  height: 320px
   background-color: #EDEFE9aa
   border-radius: 100%
   justify-items: center
   align-items: center
+  font-size: small
+  font-family: fonts.$font-header
   button 
     border-radius: 25px
-    background-color: variables.$main-bg-color
+    background-color: v.$main-bg-color
     color: #fff
     border: none
     padding: 0

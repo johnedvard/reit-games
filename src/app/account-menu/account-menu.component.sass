@@ -1,15 +1,21 @@
-
+@use '../../variables' as v
+@use '../../fonts'
 
 :host
   display: flex
   flex-flow: column
   align-items: flex-start
-  position: relative
+  position: absolute
+  right: calc(100% - v.$top-menu-height - 17px) // profile img + chevron
+  top: calc(v.$top-menu-height + 2px) // height of menu
   background-color: #f9f9f9
   min-width: 160px
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
   padding: 12px 16px
   z-index: 1
+
+.title
+  font-family: fonts.$font-header
 
 div
   display: flex
@@ -28,5 +34,6 @@ div
     position: absolute
     bottom: -5px
     left: 0
+    font-family: fonts.$font-default
     content: '__'
     

@@ -45,8 +45,11 @@ export class AccountMenuComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  signOut() {
+  signOut(event: MouseEvent) {
     this.nearService.signOut();
     this.isDropDownOpenChange.emit(false);
+    // prevent log-in-out component from automatically signing in
+    event.preventDefault();
+    event.stopPropagation();
   }
 }

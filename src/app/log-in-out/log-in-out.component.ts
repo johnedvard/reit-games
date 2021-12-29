@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { Account } from 'near-api-js';
 import { NearConnectionService } from '../near-connection.service';
 
@@ -10,20 +16,23 @@ import { NearConnectionService } from '../near-connection.service';
 export class LogInOutComponent implements OnInit {
   defaultImgSrc = 'assets/default-gamer.svg';
   isDropDownOpen!: boolean;
-  gamerImgSrc!: string;
+  gamerImgSrc = this.defaultImgSrc;
   isReady = false; // set to true when wallet connection has been made
   account!: Account;
-
-  constructor(
-    private nearService: NearConnectionService,
-    private eRef: ElementRef
-  ) {
+  @HostBinding('class.signed-in') isSignedIn: boolean = false;
+  @HostListener('click', ['$event'])
+  clickout(event: MouseEvent) {
+    this.profileImgClick(event);
+  }
+  constructor(private nearService: NearConnectionService) {
     this.nearService.getAccount().subscribe((account) => {
       this.account = account;
       this.isReady = true;
-      if (!this.isLoggedIn()) {
+      if (!this.nearService.isSignedIn()) {
         this.gamerImgSrc = this.defaultImgSrc;
+        this.isSignedIn = false;
       } else {
+        this.isSignedIn = true;
       }
     });
   }
@@ -36,10 +45,6 @@ export class LogInOutComponent implements OnInit {
     } else {
       this.nearService.login();
     }
-  }
-
-  private isLoggedIn() {
-    return false;
   }
 
   ngOnInit(): void {}
