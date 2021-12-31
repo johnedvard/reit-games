@@ -4,8 +4,10 @@ import {
   HostBinding,
   HostListener,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { Account } from 'near-api-js';
+import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { NearConnectionService } from '../near-connection.service';
 
 @Component({
@@ -21,7 +23,7 @@ export class LogInOutComponent implements OnInit {
   account!: Account;
   @HostBinding('class.signed-in') isSignedIn: boolean = false;
   @HostListener('click', ['$event'])
-  clickout(event: MouseEvent) {
+  click(event: MouseEvent) {
     this.profileImgClick(event);
   }
   constructor(private nearService: NearConnectionService) {
@@ -45,6 +47,10 @@ export class LogInOutComponent implements OnInit {
     } else {
       this.nearService.login();
     }
+  }
+  appAccountMenuClick(event: MouseEvent) {
+    // prevent closing the menu when we click inside the menu
+    event.stopPropagation();
   }
 
   ngOnInit(): void {}

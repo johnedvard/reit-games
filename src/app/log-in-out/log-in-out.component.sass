@@ -1,5 +1,7 @@
 @use '../../mixins' as m
+@use '../../variables' as v
 @use '../../fonts'
+
 :host
   display: flex
   flex-flow: row
@@ -18,7 +20,7 @@
 .chevron
  font-family: fonts.$font-default
  width: 17px
- color: #444444
+ color: v.$main-bg-color
  text-align: center
  &::before
   border-style: solid

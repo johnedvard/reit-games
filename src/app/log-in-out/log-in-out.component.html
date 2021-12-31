@@ -8,6 +8,8 @@
 <span *ngIf="isSignedIn" class="chevron"></span>
 
 <app-account-menu
+  id="accountMenu"
+  (click)="appAccountMenuClick($event)"
   *ngIf="isDropDownOpen"
   class="dropdown"
   [(isDropDownOpen)]="isDropDownOpen"

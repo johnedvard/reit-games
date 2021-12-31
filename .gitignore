@@ -46,3 +46,8 @@ testem.log
 Thumbs.db
 .vscode
 .editorconfig
+
+# Secret stuff
+
+/src/environments/*
+!/src/enviromentmets/environment.ts
