@@ -50,4 +50,4 @@ Thumbs.db
 # Secret stuff
 
 /src/environments/*
-!/src/enviromentmets/environment.ts
+!/src/enviromentmets/environment.template.ts

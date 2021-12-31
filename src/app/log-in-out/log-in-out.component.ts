@@ -1,13 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 import { Account } from 'near-api-js';
-import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { NearConnectionService } from '../near-connection.service';
 
 @Component({

@@ -8,7 +8,12 @@ import { LogInOutComponent } from './log-in-out/log-in-out.component';
 import { AccountMenuComponent } from './account-menu/account-menu.component';
 
 @NgModule({
-  declarations: [AppComponent, MainMenuComponent, LogInOutComponent, AccountMenuComponent],
+  declarations: [
+    AppComponent,
+    MainMenuComponent,
+    LogInOutComponent,
+    AccountMenuComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],

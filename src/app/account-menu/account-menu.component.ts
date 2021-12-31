@@ -8,8 +8,8 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Account } from 'near-api-js';
-import { AccountBalance } from 'near-api-js/lib/account';
 import { NearConnectionService } from '../near-connection.service';
+import { NftStorageService } from '../shared/nft-storage.service';
 
 @Component({
   selector: 'app-account-menu',
@@ -32,7 +32,8 @@ export class AccountMenuComponent implements OnInit {
 
   constructor(
     private nearService: NearConnectionService,
-    private eRef: ElementRef
+    private eRef: ElementRef,
+    private nftStorage: NftStorageService
   ) {
     nearService.getAccount().subscribe((account) => {
       this.account = account;
@@ -51,5 +52,15 @@ export class AccountMenuComponent implements OnInit {
     // prevent log-in-out component from automatically signing in
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  editProfile(event: MouseEvent) {
+    // TODO open profile modal
+  }
+  async saveProfileImage(event: Event) {
+    const element: HTMLInputElement = event.currentTarget as HTMLInputElement;
+    if (element && element.files) {
+      this.nftStorage.storeImage(element.files[0]);
+    }
   }
 }
