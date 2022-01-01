@@ -6,6 +6,7 @@ import {
   ConnectConfig,
   keyStores,
   Account,
+  Contract,
 } from 'near-api-js';
 import { AccountBalance } from 'near-api-js/lib/account';
 
@@ -21,12 +22,13 @@ export class NearConnectionService {
 
   private readAccount!: Account;
   private account: ReplaySubject<Account> = new ReplaySubject<Account>();
+  private contract!: Contract;
   private near!: Near;
   private walletConnection!: WalletConnection;
   private balance!: AccountBalance;
 
   constructor() {
-    this.initNear().then(({ near, walletConnection }) => {
+    this.initNear().then(async ({ near, walletConnection }) => {
       if (walletConnection) {
         this.readAccount = new Account(near.connection, this.CONTRACT_NAME);
         let account = this.readAccount;
@@ -40,6 +42,12 @@ export class NearConnectionService {
           // account with read priveledges only
           account = this.readAccount;
         }
+        this.contract = await new Contract(account, this.CONTRACT_NAME, {
+          // View methods are read only. They don't modify the state, but usually return some value.
+          viewMethods: ['getProfileImageUrl'],
+          // Change methods can modify the state. But you don't receive the returned value when called.
+          changeMethods: ['setProfileImageUrl'],
+        });
         this.account.next(account);
       }
     });
@@ -75,6 +83,8 @@ export class NearConnectionService {
     }
     return false;
   }
+
+  saveProfileImage(imgUrl: string) {}
 
   private async initNear(): Promise<{
     near: Near;
