@@ -9,7 +9,7 @@
     "test": "ng test",
     "contract:build": "asb --target debug",
     "contract:build:release": "asb",
-    "contract:deploy": "near dev-deploy ./build/release/singleton.wasm"
+    "contract:deploy": "near dev-deploy ./build/debug/contract.wasm"
   },
   "private": true,
   "dependencies": {

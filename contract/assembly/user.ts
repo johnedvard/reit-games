@@ -9,4 +9,8 @@ export class User {
   set profileImageSrc(value: string) {
     this._profileImageSrc = value;
   }
+
+  get profileImageSrc(): string {
+    return this._profileImageSrc;
+  }
 }
