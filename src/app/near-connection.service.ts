@@ -17,8 +17,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class NearConnectionService {
-  CONTRACT_NAME = 'dev-1618829854588-2430734';
-  APP_KEY_PREFIX = 'shiritori:';
+  CONTRACT_NAME = 'dev-1641476589815-60451776847506';
+  APP_KEY_PREFIX = 'reit-games:';
 
   private readAccount!: Account;
   private account: ReplaySubject<Account> = new ReplaySubject<Account>();
@@ -85,13 +85,13 @@ export class NearConnectionService {
   }
 
   saveProfileImageSrc(profileImageSrc: string) {
-    return (<any>this.contract).setProfileImageSrc({
+    (<any>this.contract).setProfileImageSrc({
       profileImageSrc,
     });
   }
 
-  getProfileImageSrc(): Promise<string> {
-    return (<any>this.contract).getProfileImageSrc();
+  getProfileImageSrc(username: string): Promise<string> {
+    return (<any>this.contract).getProfileImageSrc({ username });
   }
 
   private async initNear(): Promise<{
