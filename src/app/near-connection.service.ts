@@ -44,9 +44,9 @@ export class NearConnectionService {
         }
         this.contract = await new Contract(account, this.CONTRACT_NAME, {
           // View methods are read only. They don't modify the state, but usually return some value.
-          viewMethods: ['getProfileImageUrl'],
+          viewMethods: ['getProfileImageSrc'],
           // Change methods can modify the state. But you don't receive the returned value when called.
-          changeMethods: ['setProfileImageUrl'],
+          changeMethods: ['setProfileImageSrc'],
         });
         this.account.next(account);
       }
@@ -84,7 +84,15 @@ export class NearConnectionService {
     return false;
   }
 
-  saveProfileImage(imgUrl: string) {}
+  saveProfileImageSrc(profileImageSrc: string) {
+    return (<any>this.contract).setProfileImageSrc({
+      profileImageSrc,
+    });
+  }
+
+  getProfileImageSrc(): Promise<string> {
+    return (<any>this.contract).getProfileImageSrc();
+  }
 
   private async initNear(): Promise<{
     near: Near;

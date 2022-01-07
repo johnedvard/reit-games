@@ -27,6 +27,10 @@ export class LogInOutComponent implements OnInit {
         this.isSignedIn = false;
       } else {
         this.isSignedIn = true;
+        this.nearService.getProfileImageSrc().then((src: string) => {
+          console.log('src');
+          this.gamerImgSrc = src;
+        });
       }
     });
   }

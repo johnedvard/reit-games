@@ -61,7 +61,7 @@ export class AccountMenuComponent implements OnInit {
     const element: HTMLInputElement = event.currentTarget as HTMLInputElement;
     if (element && element.files) {
       const imgUrl = await this.nftStorage.storeImage(element.files[0]);
-      this.nearService.saveProfileImage(imgUrl);
+      this.nearService.saveProfileImageSrc(imgUrl);
     }
   }
 }
