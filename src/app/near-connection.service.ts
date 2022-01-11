@@ -65,8 +65,8 @@ export class NearConnectionService {
     // TODO (johnedvard) get env variable instead of hardcode development
     if (!this.walletConnection || !this.near) return;
     if (!this.walletConnection.isSignedIn()) {
-      // Contract account, normally only gonna work in read only mode
-      this.walletConnection.requestSignIn();
+      // Need to pass the correct contract name to be able to call change methods on behalf of the user without requesting permission
+      this.walletConnection.requestSignIn(this.CONTRACT_NAME);
     }
   }
 
