@@ -22,6 +22,7 @@ export class AccountMenuComponent implements OnInit {
 
   account!: Account;
   nearTokens!: string;
+  isUploadingImage = false;
 
   @HostListener('document:click', ['$event'])
   clickout(event: MouseEvent) {
@@ -60,7 +61,9 @@ export class AccountMenuComponent implements OnInit {
   async saveProfileImage(event: Event) {
     const element: HTMLInputElement = event.currentTarget as HTMLInputElement;
     if (element && element.files) {
+      this.isUploadingImage = true;
       const imgUrl = await this.nftStorage.storeImage(element.files[0]);
+      this.isUploadingImage = false;
       this.nearService.saveProfileImageSrc(imgUrl);
     }
   }

@@ -1,9 +1,15 @@
-@use './variables'
+@use './variables' as v
 @use './fonts'
 
 body
   padding: 0px
   margin: 0px
   height: 100vh
-  background-color: variables.$main-bg-color
+  background-color: v.$main-bg-color
   font-family: fonts.$font-content
+  color: v.$main-fg-color
+
+h1
+  font-family: fonts.$font-header
+  color: v.$main-fg-color
+  font-weight: normal

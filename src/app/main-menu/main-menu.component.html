@@ -4,6 +4,6 @@
 </div>
 <menu id="circle-menu">
   <li *ngFor="let menuItem of menuItems">
-    <button type="button">{{ menuItem.name }}</button>
+    <a [routerLink]="menuItem.route">{{ menuItem.name }}</a>
   </li>
 </menu>

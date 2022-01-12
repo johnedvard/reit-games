@@ -2,8 +2,11 @@
 
 <div>
   <span class="title">NEAR: </span>
-  <span>{{ nearTokens }} {{ nearTokens && "Ⓝ" }}</span>
+  <span>{{ nearTokens }} {{ nearTokens && 'Ⓝ' }}</span>
 </div>
+<button type="button">
+  <label for="fileUpload" class="custom-file-upload">Change Avatar</label>
+  <label *ngIf="isUploadingImage">add spinner here</label>
+</button>
+<input id="fileUpload" type="file" (change)="saveProfileImage($event)" />
 <button type="button" (click)="signOut($event)">Logout</button>
-<!-- <button type="button" (click)="editProfile($event)">Edit Profile</button> -->
-<input type="file" (change)="saveProfileImage($event)" />

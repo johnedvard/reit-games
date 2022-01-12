@@ -7,11 +7,11 @@ import { NearConnectionService } from '../near-connection.service';
   styleUrls: ['./main-menu.component.sass'],
 })
 export class MainMenuComponent implements OnInit {
-  menuItems: { name: string }[] = [
-    { name: 'GAMES' },
-    { name: 'NFT' },
-    { name: 'ABOUT' },
-    { name: 'WEB3' },
+  menuItems: { name: string; route: string }[] = [
+    { name: 'GAMES', route: '/games' },
+    { name: 'NFT', route: '/nft' },
+    { name: 'ABOUT', route: '/about' },
+    { name: 'WEB3', route: '/web3' },
   ];
 
   constructor(private nearService: NearConnectionService) {}

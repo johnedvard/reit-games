@@ -29,7 +29,7 @@ export class LogInOutComponent implements OnInit {
         this.isSignedIn = true;
         this.nearService
           .getProfileImageSrc(account.accountId)
-          .then((src: string) => {
+          .subscribe((src: string) => {
             this.gamerImgSrc = src.replace('ipfs://', 'https://ipfs.io/ipfs/');
           });
       }

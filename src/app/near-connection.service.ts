@@ -26,6 +26,7 @@ export class NearConnectionService {
   private near!: Near;
   private walletConnection!: WalletConnection;
   private balance!: AccountBalance;
+  private profileSubject = new ReplaySubject<string>();
 
   constructor() {
     this.initNear().then(async ({ near, walletConnection }) => {
@@ -84,14 +85,25 @@ export class NearConnectionService {
     return false;
   }
 
-  saveProfileImageSrc(profileImageSrc: string) {
-    (<any>this.contract).setProfileImageSrc({
-      profileImageSrc,
-    });
+  saveProfileImageSrc(profileImageSrc: string): Promise<string> {
+    // Trick user to see uploaded image before it's stored on the contract
+    this.profileSubject.next(profileImageSrc);
+    return (<any>this.contract)
+      .setProfileImageSrc({
+        profileImageSrc,
+      })
+      .then((src: string) => {
+        this.profileSubject.next(src);
+      });
   }
 
-  getProfileImageSrc(username: string): Promise<string> {
-    return (<any>this.contract).getProfileImageSrc({ username });
+  getProfileImageSrc(username: string): Observable<string> {
+    (<any>this.contract)
+      .getProfileImageSrc({ username })
+      .then((src: string) => {
+        this.profileSubject.next(src);
+      });
+    return this.profileSubject.asObservable();
   }
 
   private async initNear(): Promise<{
