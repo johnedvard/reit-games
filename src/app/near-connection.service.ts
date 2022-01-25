@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class NearConnectionService {
-  CONTRACT_NAME = 'dev-1641476589815-60451776847506';
+  CONTRACT_NAME = 'dev-1642243356013-50842527229872';
   APP_KEY_PREFIX = 'reit-games:';
 
   private readAccount!: Account;
@@ -45,7 +45,7 @@ export class NearConnectionService {
         }
         this.contract = await new Contract(account, this.CONTRACT_NAME, {
           // View methods are read only. They don't modify the state, but usually return some value.
-          viewMethods: ['getProfileImageSrc'],
+          viewMethods: ['getProfileImageSrc', 'nft_metadata'],
           // Change methods can modify the state. But you don't receive the returned value when called.
           changeMethods: ['setProfileImageSrc'],
         });
@@ -95,6 +95,12 @@ export class NearConnectionService {
       .then((src: string) => {
         this.profileSubject.next(src);
       });
+  }
+
+  getNftMetadata(): Promise<string> {
+    return (<any>this.contract).nft_metadata().then((res: any) => {
+      console.log(res);
+    });
   }
 
   getProfileImageSrc(username: string): Observable<string> {
