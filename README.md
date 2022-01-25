@@ -1,14 +1,25 @@
 # ReitGames
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+This is the front-end code for my personal web site.
 
-## Development server
+## Prepare
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+We need to prepare out enviroment before we can build.
+Create these two files:
 
-## Code scaffolding
+- `src/environments/environment.prod.ts`
+- `src/environments/environment.ts`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+And replace the content based on the template: `src/environments/environment.template.ts`.
+It contains the following variables
+
+- nftStorageApiKey (see <a href="#nftStorageApiKey">nftStorageApiKey</a> for details)
+- production
+- home
+
+### nftStorageApiKey
+
+Get an API-key from https://nft.storage/
 
 ## Build
 
