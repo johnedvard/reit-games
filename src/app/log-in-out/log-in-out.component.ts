@@ -30,7 +30,12 @@ export class LogInOutComponent implements OnInit {
         this.nearService
           .getProfileImageSrc(account.accountId)
           .subscribe((src: string) => {
-            this.gamerImgSrc = src.replace('ipfs://', 'https://ipfs.io/ipfs/');
+            if (src) {
+              this.gamerImgSrc = src.replace(
+                'ipfs://',
+                'https://ipfs.io/ipfs/'
+              );
+            }
           });
       }
     });
