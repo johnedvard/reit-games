@@ -1,16 +1,35 @@
 <h1 id="games">Games</h1>
 <app-games></app-games>
 <h1 id="nft">NFT</h1>
-What are NFTs exactly? It stands for "non fungible token", which simply means
-that one token is unique. We hear a lot about NFTs being images these days, but
-it doesn't have to be an image. It can be anything. The main idea is that you
-can own an NFT. The content of an NFT itself can change over time, even the
-ownership. To illustrate this, I have created an NFT for you. You are free to
-make changes to it, but I decide what you are allowed to change. How's that
-possible? The NFT I have created is deployed to my smart contract (yet another
-strange term.) It means that I have written code to define what owners, and
-non-owners are allowed to change on the NFT. It's easier to explain using an
-example. Here's my NFT.
+<p>
+  What are NFTs exactly? It stands for "non fungible token", which simply means
+  that one token is unique. We hear a lot about NFTs being images these days,
+  but it doesn't have to be an image. It can be anything. The main idea is that
+  you can own an NFT. The content of an NFT itself can change over time, even
+  the ownership. To illustrate this, I have created an NFT for you. You are free
+  to make changes to it, but I decide what you are allowed to change. How's that
+  possible? The NFT I have created is deployed to my smart contract (yet another
+  strange term.) It means that I have written code to define what owners, and
+  non-owners are allowed to change on the NFT. It's easier to explain using an
+  example. Here's my NFT.
+</p>
 
+<div class="nft-token" *ngIf="reitGamesNft">
+  <img
+    alt="profile picture of the NFT author"
+    [src]="reitGamesNft.metadata.media"
+  />
+  <label>Title: {{ reitGamesNft.metadata.title }}</label>
+  <label>Description: {{ reitGamesNft.metadata.description }}</label>
+  <form>
+    <input
+      label="Change description"
+      [value]="reitGamesNft.metadata.description"
+    />
+    <button type="button" (click)="changeNftToken($event)">
+      Change description
+    </button>
+  </form>
+</div>
 <h1 id="about">About</h1>
 <h1 id="web3">Web 3</h1>

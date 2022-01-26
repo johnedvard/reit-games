@@ -12,6 +12,7 @@ import { AccountBalance } from 'near-api-js/lib/account';
 
 import { ReplaySubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ReitToken } from './reit-token';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,12 @@ export class NearConnectionService {
         }
         this.contract = await new Contract(account, this.CONTRACT_NAME, {
           // View methods are read only. They don't modify the state, but usually return some value.
-          viewMethods: ['getProfileImageSrc', 'nft_metadata'],
+          viewMethods: [
+            'getProfileImageSrc',
+            'nft_metadata',
+            'nft_tokens_for_owner',
+            'nft_token',
+          ],
           // Change methods can modify the state. But you don't receive the returned value when called.
           changeMethods: ['setProfileImageSrc'],
         });
@@ -100,6 +106,22 @@ export class NearConnectionService {
   getNftMetadata(): Promise<string> {
     return (<any>this.contract).nft_metadata().then((res: any) => {
       console.log(res);
+    });
+  }
+
+  getNftTokensForOwner(account_id: string): Promise<string> {
+    return (<any>this.contract)
+      .nft_tokens_for_owner({ account_id })
+      .then((res: any) => {
+        console.log(res);
+      });
+  }
+
+  getNftToken(token_id: string): Observable<ReitToken> {
+    return new Observable((observer) => {
+      (<any>this.contract).nft_token({ token_id }).then((res: ReitToken) => {
+        observer.next(res);
+      });
     });
   }
 
