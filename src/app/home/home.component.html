@@ -21,15 +21,34 @@
   />
   <label>Title: {{ reitGamesNft.metadata.title }}</label>
   <label>Description: {{ reitGamesNft.metadata.description }}</label>
-  <form>
+  <form [formGroup]="nftForm">
     <input
       label="Change description"
       [value]="reitGamesNft.metadata.description"
+      formControlName="nftDescription"
     />
-    <button type="button" (click)="changeNftToken($event)">
+    <button
+      type="button"
+      (click)="updateNftToken(reitGamesNftId)"
+      [disabled]="!nftForm.valid || nftForm.pristine"
+    >
       Change description
     </button>
   </form>
 </div>
+
+<p>Ok, cool, but what can I do with an NFT?</p>
+<p>
+  Good question, and there's actually a lot of things we can do depending on the
+  application using the NFT and implementing the contract. What we mostly see
+  are marketplaces such as
+  <a href="https://www.mintbase.io/">mintbase.io</a> and
+  <a href="https://paras.id/">paras.id</a>. They make it possible to mint
+  (create,) list and sell NFTs. I decided to use the NFTs in a series of
+  mini-games. When you login to the NEAR wallet, and play any of our mini-games,
+  you'll be able to use the NFT (and others') in the game. It's easier if I give
+  you an example
+</p>
+
 <h1 id="about">About</h1>
 <h1 id="web3">Web 3</h1>

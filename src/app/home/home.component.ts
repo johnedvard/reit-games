@@ -1,6 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/internal/operators/filter';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NearConnectionService } from '../near-connection.service';
@@ -14,6 +15,9 @@ import { ReitToken } from '../reit-token';
 export class HomeComponent implements OnInit, OnDestroy {
   reitGamesNftId = 'reitgames';
   reitGamesNft!: ReitToken;
+  nftForm: FormGroup = new FormGroup({
+    nftDescription: new FormControl('', [Validators.required]),
+  });
 
   $token!: Subscription;
   constructor(
@@ -28,7 +32,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((token) => {
         console.log('got token', token);
         this.reitGamesNft = token;
+        this.setFormDefaultValues(token);
       });
+  }
+
+  setFormDefaultValues(token: ReitToken) {
+    this.nftForm.patchValue({ nftDescription: token.metadata.description });
   }
 
   ngAfterViewInit(): void {
@@ -45,7 +54,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeNftToken(formData: any): void {
-    console.log(formData);
+  updateNftToken(token_id: string): void {
+    const value = this.nftForm.value;
+    this.nearService.updateNftToken(token_id, {
+      description: <string>value.nftDescription,
+    });
   }
 }

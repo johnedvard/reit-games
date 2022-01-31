@@ -13,6 +13,7 @@ import { AccountBalance } from 'near-api-js/lib/account';
 import { ReplaySubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ReitToken } from './reit-token';
+import { TokenMetadata } from './token-metadata';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,7 @@ export class NearConnectionService {
             'nft_token',
           ],
           // Change methods can modify the state. But you don't receive the returned value when called.
-          changeMethods: ['setProfileImageSrc'],
+          changeMethods: ['setProfileImageSrc', 'updateNftToken'],
         });
         this.account.next(account);
       }
@@ -110,11 +111,10 @@ export class NearConnectionService {
   }
 
   getNftTokensForOwner(account_id: string): Promise<string> {
-    return (<any>this.contract)
-      .nft_tokens_for_owner({ account_id })
-      .then((res: any) => {
-        console.log(res);
-      });
+    const args = { account_id };
+    return (<any>this.contract).nft_tokens_for_owner(args).then((res: any) => {
+      console.log(res);
+    });
   }
 
   getNftToken(token_id: string): Observable<ReitToken> {
@@ -123,6 +123,14 @@ export class NearConnectionService {
         observer.next(res);
       });
     });
+  }
+
+  updateNftToken(token_id: string, metadata: TokenMetadata): void {
+    (<any>this.contract)
+      .updateNftToken({ token_id, description: metadata.description })
+      .then((src: string) => {
+        console.log('updated nft token', src);
+      });
   }
 
   getProfileImageSrc(username: string): Observable<string> {

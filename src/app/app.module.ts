@@ -8,6 +8,7 @@ import { LogInOutComponent } from './log-in-out/log-in-out.component';
 import { AccountMenuComponent } from './account-menu/account-menu.component';
 import { GamesComponent } from './games/games.component';
 import { HomeComponent } from './home/home.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { HomeComponent } from './home/home.component';
     GamesComponent,
     HomeComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [],
   bootstrap: [AppComponent],
 })
