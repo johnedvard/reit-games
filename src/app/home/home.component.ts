@@ -13,7 +13,7 @@ import { ReitToken } from '../reit-token';
   styleUrls: ['./home.component.sass'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  reitGamesNftId = 'reitgames';
+  reitGamesNftId = 'token-1';
   reitGamesNft!: ReitToken;
   nftForm: FormGroup = new FormGroup({
     nftDescription: new FormControl('', [Validators.required]),
