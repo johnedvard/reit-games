@@ -119,14 +119,24 @@ export class NearConnectionService {
 
   getNftToken(token_id: string): Observable<ReitToken> {
     return new Observable((observer) => {
+      this.walletConnection
+        .account()
+        .functionCall({
+          contractId: this.contract.contractId,
+          methodName: 'nft_token',
+          args: { token_id },
+        })
+        .then((res: any) => {
+          console.log('function callo', res);
+        });
       (<any>this.contract).nft_token({ token_id }).then((res: ReitToken) => {
         observer.next(res);
       });
     });
   }
 
-  updateNftToken(token_id: string, metadata: TokenMetadata): void {
-    (<any>this.contract)
+  updateNftToken(token_id: string, metadata: TokenMetadata): Promise<void> {
+    return (<any>this.contract)
       .updateNftToken({ token_id, description: metadata.description })
       .then((src: string) => {
         console.log('updated nft token', src);

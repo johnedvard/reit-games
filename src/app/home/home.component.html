@@ -11,7 +11,10 @@
   possible? The NFT I have created is deployed to my smart contract (yet another
   strange term.) It means that I have written code to define what owners, and
   non-owners are allowed to change on the NFT. It's easier to explain using an
-  example. Here's my NFT.
+  example. Here's my NFT. It's a picture, with a title and a description. You
+  can actially change the description of my NFT if you want to. Why? Because I
+  have allowed it. In the smart contract, I have created rules for the NFTs, and
+  one rule is to be able to change the description.
 </p>
 
 <div class="nft-token" *ngIf="reitGamesNft">
@@ -30,9 +33,10 @@
     <button
       type="button"
       (click)="updateNftToken(reitGamesNftId)"
-      [disabled]="!nftForm.valid || nftForm.pristine"
+      [disabled]="!nftForm.valid || nftForm.pristine || isUpdatingNft"
     >
       Change description
+      <div *ngIf="isUpdatingNft" class="loader"></div>
     </button>
   </form>
 </div>
@@ -40,14 +44,21 @@
 <p>Ok, cool, but what can I do with an NFT?</p>
 <p>
   Good question, and there's actually a lot of things we can do depending on the
-  application using the NFT and implementing the contract. What we mostly see
-  are marketplaces such as
+  application using the NFT. What we mostly see are marketplaces such as
   <a href="https://www.mintbase.io/">mintbase.io</a> and
   <a href="https://paras.id/">paras.id</a>. They make it possible to mint
   (create,) list and sell NFTs. I decided to use the NFTs in a series of
   mini-games. When you login to the NEAR wallet, and play any of our mini-games,
   you'll be able to use the NFT (and others') in the game. It's easier if I give
   you an example
+</p>
+<p>
+  I created a mini-game below, and you can select which character you can play
+  as. The character itself is an NFT. You can create your own character, or use
+  the default character, which is my NFT. Did you try to change the description
+  of the NFT? If you did, you will also notice that the description of the
+  character in the game changed too. Not only that, but the description will
+  change for everyone using my NFT, not only you.
 </p>
 
 <h1 id="about">About</h1>

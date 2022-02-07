@@ -15,6 +15,7 @@ import { ReitToken } from '../reit-token';
 export class HomeComponent implements OnInit, OnDestroy {
   reitGamesNftId = 'token-1';
   reitGamesNft!: ReitToken;
+  isUpdatingNft = false;
   nftForm: FormGroup = new FormGroup({
     nftDescription: new FormControl('', [Validators.required]),
   });
@@ -56,8 +57,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   updateNftToken(token_id: string): void {
     const value = this.nftForm.value;
-    this.nearService.updateNftToken(token_id, {
-      description: <string>value.nftDescription,
-    });
+    this.isUpdatingNft = true;
+    this.nearService
+      .updateNftToken(token_id, {
+        description: <string>value.nftDescription,
+      })
+      .finally(() => {
+        this.isUpdatingNft = false;
+      });
   }
 }

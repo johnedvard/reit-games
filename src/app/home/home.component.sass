@@ -1,4 +1,9 @@
+@use '../../mixins' as m
+
 .nft-token
   label
     white-space: pre-line
     display: block
+
+.loader
+  @include m.loader()
